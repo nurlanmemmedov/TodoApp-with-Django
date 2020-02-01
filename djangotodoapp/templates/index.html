@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+ <div class="container">
+     <form  class="mt-5 mb-4 d-flex justify-content-between align-items-center" action="/addTodo/" method="post">
+        {% csrf_token %}
+         <input name="title" class="col-lg-10 rounded border border-primary" style="height:36px" type="text" placeholder="Todo başlığını yaz">
+         <button type="submit" class="btn btn-primary ml-2" style="width: 177px"> Əlavə et</button>
+     </form>
+
+    {% if not todos %}
+      <div class="alert alert-danger col-lg-12">
+        Ediləcəklər listi boşdur
+      </div>
+    {% else %}
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Başlıq</th>
+          <th scope="col">Status</th>
+          <th scope="col">Statusu dəyiş</th>
+          <th scope="col">sil</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for todo in todos %}
+          <tr>
+              <th scope="row">{{todo.title}}</th>
+              {% if todo.completed == False %}
+                <td>Aktivdir</td>
+              {% else %}
+                <td>Tamamlandı</td>
+              {% endif %}
+              {% if todo.completed == False %}
+                <td><a href="/updateTodo/{{todo.id}}" class="btn btn-warning">Tamamla</a></td>
+              {% else %}
+                <td><a href="/updateTodo/{{todo.id}}" class="btn btn-warning">Aktiv et</a></td>
+              {% endif %}
+              <td><a href="/deleteTodo/{{todo.id}}" class="btn btn-danger">Sil</a></td>
+          </tr>
+        {% endfor %}   
+      
+      </tbody>
+    </table>
+    {% endif %}
+
+     
+ </div> 
+    
+
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
